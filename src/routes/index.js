@@ -1,6 +1,8 @@
 // export all routes
 import { Router } from 'express';
 import healthRoute from './health.js';
+import db from '../config/db.js';
+
 
 const router = Router();
 
@@ -10,7 +12,7 @@ const router = Router();
  * /:
  *   get:
  *     summary: Root endpoint
- *     description: Returns a simple Hello World message.
+ *     description: Returns a simple welcome message with the current database time.
  *     responses:
  *       200:
  *         description: Successful response
@@ -18,10 +20,17 @@ const router = Router();
  *           text/plain:
  *             schema:
  *               type: string
- *               example: Hello World!
+ *               example: Welcome to the CBS API Server. Database connected successfully. Current database time is: 2024-01-01T00:00:00.000Z
  */
-router.get('/', (req, res) => {
-    res.send('Hello World!');
+// SERVER CONFIGURATION
+router.get('/', async (req, res) => {
+    try {
+        const result = await db.query('SELECT NOW()');
+        res.send(`Welcome to the CBS API Server. Database connected successfully. Current database time is: ${result.rows[0].now}`);
+    } catch (err) {
+        console.error('Database connection error:', err);
+        res.status(500).send('Database connection error');
+    }
 });
 
 router.use(healthRoute);

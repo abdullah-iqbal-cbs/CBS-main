@@ -1,4 +1,3 @@
-// jest.config.js (ESM format)
 export default {
     verbose: true,
     testEnvironment: 'node',
