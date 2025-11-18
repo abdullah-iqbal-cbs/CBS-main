@@ -23,3 +23,4 @@ Thumbs.db
 *.sln
 # Temporary files
 tmp/
+/src/generated/prisma
