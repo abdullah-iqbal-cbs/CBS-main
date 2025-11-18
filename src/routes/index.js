@@ -20,7 +20,7 @@ const router = Router();
  *           text/plain:
  *             schema:
  *               type: string
- *               example: Welcome to the CBS API Server. Database connected successfully. Current database time is: 2024-01-01T00:00:00.000Z
+ *               example: Welcome to the CBS API Server. Database connected successfully. Current database time like 2024-01-01T00:00:00.000Z
  */
 // SERVER CONFIGURATION
 router.get('/', async (req, res) => {
