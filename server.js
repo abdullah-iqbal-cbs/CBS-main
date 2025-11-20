@@ -3,11 +3,13 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
+import passport from 'passport';
 
 // Routes
 import routes from './src/routes/index.js';
 import { swaggerUi, swaggerSpec } from './src/config/swagger.js';
 
+import configurePassport from './src/config/passport.js';
 
 // ENV Variables
 const PORT = process.env.PORT || 3000;
@@ -15,9 +17,15 @@ const API_BASE = process.env.API_BASE || '/api/v1';
 
 // App Initialization and Middlewares
 const app = express();
+
+configurePassport();
+
+// Middlewares
 app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json());
+app.use(passport.initialize());
+
 app.use(API_BASE, routes);
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

@@ -1,0 +1,22 @@
+[
+  { "name": "user:create", "description": "Create users", "permissionCode": "user_create" },
+  { "name": "user:view", "description": "View users", "permissionCode": "user_view" },
+  { "name": "user:update", "description": "Update users", "permissionCode": "user_update" },
+  { "name": "user:delete", "description": "Delete users", "permissionCode": "user_delete" },
+
+  { "name": "contact:create", "description": "Create contacts", "permissionCode": "contact_create" },
+  { "name": "contact:view", "description": "View contacts", "permissionCode": "contact_view" },
+  { "name": "contact:update", "description": "Update contacts", "permissionCode": "contact_update" },
+  { "name": "contact:delete", "description": "Delete contacts", "permissionCode": "contact_delete" },
+
+  { "name": "role:view", "description": "View roles", "permissionCode": "role_view" },
+  { "name": "role:assign", "description": "Assign role to users", "permissionCode": "role_assign" },
+
+  { "name": "permission:view", "description": "View permissions", "permissionCode": "permission_view" },
+
+  { "name": "agency:update", "description": "Update agency settings", "permissionCode": "agency_update" },
+  { "name": "subaccount:update", "description": "Update subaccount settings", "permissionCode": "subaccount_update" },
+
+  { "name": "system:logs:view", "description": "View system logs", "permissionCode": "system_logs_view" },
+  { "name": "system:settings:update", "description": "Modify system settings", "permissionCode": "system_settings_update" }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Admin",
+    "description": "Full system access",
+    "permissions": "*"
+  },
+  {
+    "name": "Manager",
+    "description": "Manage users & contacts",
+    "permissions": [
+      "user_view",
+      "user_update",
+      "contact_create",
+      "contact_view",
+      "contact_update",
+      "contact_delete",
+      "role_view",
+      "permission_view"
+    ]
+  },
+  {
+    "name": "User",
+    "description": "Basic contact access",
+    "permissions": [
+      "contact_view",
+      "contact_create",
+      "contact_update"
+    ]
+  }
+]

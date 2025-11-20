@@ -1,0 +1,10 @@
+[
+  {
+    "email": "admin@test.com",
+    "password": "PasswordA1!",
+    "name": "System Admin",
+    "roles": ["Admin"],
+    "applicationId": "",
+    "isActive": true
+  }
+]

@@ -7,9 +7,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API Documentation',
-      version: '1.0.0',
-      description: 'Auto-generated API docs using Swagger',
+      title: process.env.SWAGGER_TITLE || 'CBS API',
+      version: process.env.SWAGGER_VERSION || '1.0.0',
+      description: process.env.SWAGGER_DESCRIPTION || 'API documentation for Reach CBS application.',
     },
     servers: [
       {

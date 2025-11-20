@@ -6,20 +6,30 @@
   "type": "module",
   "scripts": {
     "start": "nodemon ./server.js",
+    "test:experimental": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "jest",
     "dev": "nodemon ./server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "pri:format": "prisma format && prisma validate",
+    "pri:generate": "prisma generate",
+    "pri:studio": "prisma studio"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-validator": "^7.3.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "passport": "^0.7.0",
+    "passport-facebook": "^3.0.0",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth20": "^2.0.0",
     "pg": "^8.16.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"

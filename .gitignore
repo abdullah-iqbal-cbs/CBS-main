@@ -1,26 +1,78 @@
+# ================================================
 # Environment Variables
+# ================================================
 .env
-# Node modules
+.env.*
+
+
+# ================================================
+# Node Modules
+# ================================================
 node_modules/
-# Build output
+
+
+# ================================================
+# Build / Output
+# ================================================
 dist/
 build/
+coverage/
+out/
+.next/
+.nuxt/
+.svelte-kit/
+
+
+# ================================================
+# Prisma Generated Client
+# (Generated inside node_modules, never commit)
+# ================================================
+/src/generated/prisma/
+prisma/generated/
+prisma/client/
+@prisma/client/
+
+
+# ================================================
 # Logs
+# ================================================
 logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-# OS generated files
+pnpm-debug.log*
+
+
+# ================================================
+# OS Generated Files
+# ================================================
 .DS_Store
 Thumbs.db
-# IDE specific files
+
+
+# ================================================
+# IDE / Editor Files
+# ================================================
 .vscode/
 .idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-# Temporary files
+
+
+# ================================================
+# Temporary Files
+# ================================================
 tmp/
+temp/
+*.tmp
+
+
+# ================================================
+# Optional: If using TypeScript
+# ================================================
+*.tsbuildinfo
+
 /src/generated/prisma
