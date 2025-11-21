@@ -28,7 +28,7 @@ export const signupController = async (req, res) => {
 
         const existingUser = await prisma.user.findFirst({
             where: {
-                OR: [{ email }, { mobile: mobile || undefined }],
+                OR: [{ email }, { mobileNumber: mobile || undefined }],
             },
         });
 
@@ -39,11 +39,11 @@ export const signupController = async (req, res) => {
         const hashedPassword = await getHashedPassword(password);
 
         const user = await prisma.user.create({
-            data: { email, mobile, name, password: hashedPassword },
+            data: { email, mobileNumber: mobile, name, password: hashedPassword, applicationId: '' },
             select: {
                 id: true,
                 email: true,
-                mobile: true,
+                mobileNumber: true,
                 name: true,
                 createdAt: true,
             },
@@ -84,7 +84,7 @@ export const loginController = async (req, res) => {
         }
 
         const user = await prisma.user.findFirst({
-            where: email ? { email } : { mobile },
+            where: email ? { email } : { mobileNumber: mobile },
         });
 
         if (!user) return res.status(401).json({ error: authErrors.INVALID_CREDENTIALS });
