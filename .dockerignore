@@ -1,0 +1,48 @@
+# .dockerignore for a Node/Express app
+# Keep unnecessary files out of the Docker build context
+
+# Git & CI
+.git
+.gitignore
+
+# Node deps & package manager artifacts
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.pnpm-store/
+
+# Env & secret files
+.env
+.env.*
+*.key
+*.pem
+*.crt
+
+# Logs & temp files
+logs/
+*.log
+tmp/
+temp/
+
+# Build / coverage artifacts
+dist/
+build/
+out/
+.nyc_output/
+coverage/
+
+# Editor / OS files
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+*~
+*.swp
+
+# Keep lockfiles and Dockerfile in context:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+# Dockerfile
