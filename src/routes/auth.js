@@ -89,7 +89,16 @@ router.get('/me', authenticateToken, authController.meController);
  *       302:
  *         description: Redirects to Google login
  */
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google', passport.authenticate('google', {
+    scope: [
+        'profile',
+        'email',
+        'https://www.googleapis.com/auth/analytics.readonly',
+        'https://www.googleapis.com/auth/webmasters.readonly'
+    ],
+    // accessType: 'offline',  // Important: Get refresh token
+    // prompt: 'consent'
+}));
 
 /**
  * @swagger
@@ -103,7 +112,16 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
  */
 router.get(
     '/google/callback',
-    passport.authenticate('google', { session: false, scope: ['profile', 'email']  }),
+    passport.authenticate('google', {
+        session: false, scope: [
+            'profile',
+            'email',
+            'https://www.googleapis.com/auth/analytics.readonly',
+            'https://www.googleapis.com/auth/webmasters.readonly'
+        ],
+        // accessType: 'offline',  // Important: Get refresh token
+        // prompt: 'consent'
+    }),
     authController.socialLoginSuccess
 );
 
@@ -161,7 +179,7 @@ router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }))
  */
 router.get(
     '/facebook/callback',
-    passport.authenticate('facebook', {session: false, scope: ['email'] }),
+    passport.authenticate('facebook', { session: false, scope: ['email'] }),
     authController.socialLoginSuccess
 );
 

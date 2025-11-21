@@ -11,3 +11,5 @@ const router = Router();
 
 
 router.get('/', contactController.getContacts);
+
+export default router;
