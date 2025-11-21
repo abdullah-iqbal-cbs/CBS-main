@@ -29,10 +29,13 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "name" TEXT,
     "avatarUrl" TEXT,
-    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
     "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "lastLoginAt" TIMESTAMP(3),
     "deletedAt" TIMESTAMP(3),
+    "mobileNumber" TEXT,
+    "phoneNumber" TEXT,
+    "applicationId" TEXT NOT NULL,
     "verificationToken" TEXT,
     "resetToken" TEXT,
     "resetTokenExpiry" TIMESTAMP(3),
@@ -132,15 +135,6 @@ CREATE UNIQUE INDEX "Agency_email_key" ON "Agency"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_googleId_key" ON "User"("googleId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_githubId_key" ON "User"("githubId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_facebookId_key" ON "User"("facebookId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Permission_name_key" ON "Permission"("name");

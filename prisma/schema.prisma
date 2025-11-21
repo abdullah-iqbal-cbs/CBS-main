@@ -60,10 +60,12 @@ model User {
   password      String
   name          String?
   avatarUrl     String?
-  isActive      Boolean   @default(true)
+  isActive      Boolean   @default(false)
   emailVerified Boolean   @default(false)
   lastLoginAt   DateTime?
   deletedAt     DateTime?
+  mobileNumber  String?
+  phoneNumber  String?
 
   applicationId String
 

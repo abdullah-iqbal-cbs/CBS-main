@@ -73,6 +73,7 @@ export default function configurePassport() {
             },
             async (req, accessToken, refreshToken, profile, done) => {
                 try {
+                    console.log("Google profile:", profile);
                     const email = profile.emails?.[0]?.value || null;
                     
                     const user = await findOrCreateUser({

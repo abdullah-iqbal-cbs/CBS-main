@@ -6,11 +6,12 @@ import db from '../config/db.js';
 import healthRoute from './health.js';
 import authRoute from './auth.js';
 import userRoute from './user.js';
+import contactRoute from './contacts.js';
+import analyticsRoute from './analytics.js';
 
 
 const router = Router();
 
-// add Swagger documentation for root route
 /**
  * @swagger
  * /:
@@ -38,8 +39,13 @@ router.get('/', async (req, res) => {
 });
 
 router.use(healthRoute);
+// Auth routes
 router.use('/auth', authRoute);
+// General routes
 router.use('/users', userRoute);
 router.use('/contacts', contactRoute);
+
+//  Google Analytics routes
+router.use('/analytics', analyticsRoute);
 
 export default router;

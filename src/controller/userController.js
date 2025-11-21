@@ -1,4 +1,5 @@
 import { PrismaClient} from "../../prisma/generated/prisma/index.js";
+import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER } from "../utils/constants.js";
 
 const prisma = new PrismaClient();
 
@@ -14,8 +15,8 @@ const getUsers = async (req, res) => {
     try {
         // @TODO: enhance filtering, sorting etc. as needed
         const search = (req.query.search || '').trim();
-        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
-        const limit = Math.max(1, parseInt(req.query.limit, 10) || 20);
+        const page = Math.max(1, parseInt(req.query.page, 10) || DEFAULT_PAGE_NUMBER);
+        const limit = Math.max(1, parseInt(req.query.limit, 10) || DEFAULT_PAGE_SIZE);
         const skip = (page - 1) * limit;
 
         const where = search
@@ -38,11 +39,13 @@ const getUsers = async (req, res) => {
         ]);
 
         const result = users.map(sanitizeUser);
-
+        
+        const previousPageUrl = page > 1 ? `/users?search=${encodeURIComponent(search)}&page=${page - 1}&limit=${limit}` : null;
+        const nextPageUrl = total > page * limit ? `/users?search=${encodeURIComponent(search)}&page=${page + 1}&limit=${limit}` : null;
         return res.status(200).json({
             success: true,
             data: result,
-            meta: { total, page, limit },
+            meta: { total, page, limit, next: nextPageUrl, previous: previousPageUrl },
         });
     } catch (error) {
         console.error('getUsers error:', error);
