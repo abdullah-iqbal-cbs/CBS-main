@@ -83,8 +83,20 @@ export const loginController = async (req, res) => {
             return res.status(400).json({ error: authErrors.INVALID_AUTH_BODY });
         }
 
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
             where: email ? { email } : { mobileNumber: mobile },
+            include: {
+                roles: {
+                    include: {
+                        role: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    }
+                }
+            }
         });
 
         if (!user) return res.status(401).json({ error: authErrors.INVALID_CREDENTIALS });
@@ -287,9 +299,24 @@ export const sendActivationEmailController = async (req, res) => {
 };
 
 // ========================== ME ==========================
-export const meController = (req, res) => {
+export const meController = async (req, res) => {
     if (!req.user) return res.status(401).json({ error: authErrors.UNAUTHORIZED });
-    res.json({ user: req.user });
+    const user = await prisma.user.findFirst({
+        where: { id: req.user.userId },
+        include: {
+            roles: {
+                include: {
+                    role: {
+                        include: {
+                            permissions: true
+                            // @TODO: select only role and permission names
+                        },
+                    }
+                }
+            }
+        }
+    });
+    res.json({ user: sanitizeUser(user) });
 };
 
 // ========================== SOCIAL LOGIN ==========================
