@@ -14,6 +14,52 @@ const router = express.Router();
 
 /**
  * @swagger
+ * /auth/signup:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *               - name
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *               mobile:
+ *                 type: string
+ *                 example: "9876543210"
+ *               password:
+ *                 type: string
+ *                 example: Password123!
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 user:
+ *                   type: object
+ *       400:
+ *         description: User already exists or validation error
+ */
+router.post('/signup', authController.signupController);
+
+/**
+ * @swagger
  * /auth/login:
  *   post:
  *     summary: Login using email OR mobile with password
@@ -58,6 +104,143 @@ router.post('/login', authController.loginController);
 
 /**
  * @swagger
+ * /auth/forgot-password:
+ *   post:
+ *     summary: Request password reset
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: Password reset email sent
+ *       404:
+ *         description: User not found
+ */
+router.post('/forgot-password', authController.forgotPasswordController);
+
+/**
+ * @swagger
+ * /auth/reset-password:
+ *   post:
+ *     summary: Reset password using token
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - token
+ *               - newPassword
+ *             properties:
+ *               token:
+ *                 type: string
+ *                 example: "reset_token_from_email"
+ *               newPassword:
+ *                 type: string
+ *                 example: NewPassword123!
+ *     responses:
+ *       200:
+ *         description: Password reset successful
+ *       400:
+ *         description: Invalid or expired token
+ */
+router.post('/reset-password', authController.resetPasswordController);
+
+/**
+ * @swagger
+ * /auth/change-password:
+ *   post:
+ *     summary: Change password (requires authentication)
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - currentPassword
+ *               - newPassword
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *                 example: OldPassword123!
+ *               newPassword:
+ *                 type: string
+ *                 example: NewPassword123!
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ *       401:
+ *         description: Current password incorrect
+ */
+
+router.post('/change-password', authenticateToken, authController.changePasswordController);
+/**
+ * @swagger
+ * /auth/activate/{token}:
+ *   get:
+ *     summary: Activate user account using activation token
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Activation token received via email
+ *     responses:
+ *       200:
+ *         description: Account activated successfully
+ *       400:
+ *         description: Invalid or expired activation token
+ *       404:
+ *         description: User not found
+ */
+router.get('/activate/:token', authController.activateAccountController);
+/**
+ * @swagger
+ * /auth/send-activation-email:
+ *   post:
+ *     summary: Resend user activation email
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: Activation email sent successfully
+ *       404:
+ *         description: User not found
+ */
+router.post('/send-activation-email', authController.sendActivationEmailController);
+
+
+/**
+ * @swagger
  * /auth/me:
  *   get:
  *     summary: Get authenticated user's profile
@@ -71,9 +254,6 @@ router.post('/login', authController.loginController);
  *         description: Unauthorized
  */
 router.get('/me', authenticateToken, authController.meController);
-
-
-
 
 /* ---------------------------------------------------------
     SOCIAL LOGIN ROUTES
@@ -92,12 +272,8 @@ router.get('/me', authenticateToken, authController.meController);
 router.get('/google', passport.authenticate('google', {
     scope: [
         'profile',
-        'email',
-        'https://www.googleapis.com/auth/analytics.readonly',
-        'https://www.googleapis.com/auth/webmasters.readonly'
-    ],
-    // accessType: 'offline',  // Important: Get refresh token
-    // prompt: 'consent'
+        'email'
+    ]
 }));
 
 /**
@@ -116,15 +292,10 @@ router.get(
         session: false, scope: [
             'profile',
             'email',
-            'https://www.googleapis.com/auth/analytics.readonly',
-            'https://www.googleapis.com/auth/webmasters.readonly'
-        ],
-        // accessType: 'offline',  // Important: Get refresh token
-        // prompt: 'consent'
+        ]
     }),
     authController.socialLoginSuccess
 );
-
 
 /**
  * @swagger
@@ -153,7 +324,6 @@ router.get(
     passport.authenticate('github', { session: false, scope: ['user:email'] }),
     authController.socialLoginSuccess
 );
-
 
 /**
  * @swagger
